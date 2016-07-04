@@ -1,6 +1,7 @@
 package db
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/TomOnTime/resourcedir/models"
@@ -18,4 +19,10 @@ func (d *dataAccess) GetAllLocations() []models.Location {
 	}
 
 	return ll
+}
+
+// UpdateLocation updates a location or creates a new one if Id == 0.
+func (d *dataAccess) UpdateLocation(loc *models.Location) error {
+	fmt.Printf("WOULD update loc: %#v\n", loc)
+	return nil
 }

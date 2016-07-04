@@ -4,9 +4,9 @@ package models
 
 import "fmt"
 
-const _Region_name = "USA"
+const _Region_name = "USACanadaOther"
 
-var _Region_index = [...]uint8{0, 3}
+var _Region_index = [...]uint8{0, 3, 9, 14}
 
 func (i Region) String() string {
 	i -= 1
