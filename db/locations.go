@@ -1,6 +1,7 @@
 package db
 
 import (
+	"database/sql"
 	"fmt"
 	"log"
 
@@ -23,6 +24,29 @@ func (d *dataAccess) GetAllLocations() []models.Location {
 
 // UpdateLocation updates a location or creates a new one if Id == 0.
 func (d *dataAccess) UpdateLocation(loc *models.Location) error {
-	fmt.Printf("WOULD update loc: %#v\n", loc)
-	return nil
+	var err error
+	var result sql.Result
+
+	if loc.Id == 0 {
+		fmt.Printf("INSERT loc: %#v\n", loc)
+		query := `
+	      INSERT INTO locations
+	      (location_name, state_province_country) VALUES (?, ?)
+	  `
+		result, err = d.db.Exec(query, loc.Name, loc.GroupId)
+		fmt.Printf("RESULT=%#v\n", result)
+	} else {
+		fmt.Printf("UPDATE loc: %#v\n", loc)
+		query := `
+		    UPDATE locations
+				SET
+				    location_name = ?,
+						state_province_country = ?
+			  WHERE location_id = ?
+		`
+		result, err = d.db.Exec(query, loc.Name, loc.GroupId, loc.Id)
+		fmt.Printf("RESULT=%#v\n", result)
+	}
+
+	return err
 }

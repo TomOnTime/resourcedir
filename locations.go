@@ -17,8 +17,9 @@ func handleLocation(w http.ResponseWriter, r *auth.AuthenticatedRequest) {
 	messages := []string{}
 
 	r.ParseForm()
-	fmt.Println(r.Form)
+	//fmt.Println(r.Form)
 	if len(r.Form) != 0 {
+		fmt.Println("Received Form")
 		m, err := updateLocationsFromForm(r.Form, locs)
 		if err != nil {
 			messages = append(messages, fmt.Sprintf("ERROR SAVING: %v", err))
@@ -35,6 +36,7 @@ func handleLocation(w http.ResponseWriter, r *auth.AuthenticatedRequest) {
 func updateLocationsFromForm(updates url.Values, locs []models.Location) ([]string, error) {
 	messages := []string{}
 	messages = append(messages, "Saved")
+	var finalerror error
 
 	for k, v := range updates {
 		// Get the key.
@@ -53,7 +55,7 @@ func updateLocationsFromForm(updates url.Values, locs []models.Location) ([]stri
 		}
 		// Get the value.
 		name := strings.TrimSpace(v[0])
-		fmt.Printf("Processing %d:%#v\n", id, name)
+		//fmt.Printf("Processing %d:%#v\n", id, name)
 		if name == "" { // Skip if blank.
 			continue
 		}
@@ -70,6 +72,7 @@ func updateLocationsFromForm(updates url.Values, locs []models.Location) ([]stri
 		if loc == nil {
 			loc = &models.Location{Name: name, GroupId: groupId}
 			messages = append(messages, fmt.Sprintf("Created location %d:%#v:%s", id, name, groupId))
+			changed = true
 		} else {
 			if loc.Name != name {
 				loc.Name = name
@@ -81,13 +84,18 @@ func updateLocationsFromForm(updates url.Values, locs []models.Location) ([]stri
 				changed = true
 			}
 		}
-		if changed {
-			data.UpdateLocation(loc)
-		}
 
+		if changed {
+			err = data.UpdateLocation(loc)
+			if err != nil {
+				messages = append(messages, fmt.Sprintf("DB error: %v", err))
+				finalerror = fmt.Errorf("There were errors")
+			}
+			break
+		}
 	}
 
-	return messages, nil
+	return messages, finalerror
 }
 
 func parseRegion(r string) models.Region {
@@ -149,11 +157,12 @@ func renderLocation(w http.ResponseWriter, locs []models.Location, messages []st
 {{end}}
 
 {{- range .NewIds -}}
-<tr><td>{{.}}</td><td><input type="text" name="name_{{.}}"></td><td>Add new location</td></tr>
+<tr><td>NEW</td><td><input type="text" name="name_{{.}}"></td><td>Add new location</td></tr>
 {{end}}
 
 </table>
-/<form>
+</form>
+<p><input type="submit" value="Save"></p>
 </body></html>
 `
 
