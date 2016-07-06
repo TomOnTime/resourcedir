@@ -1,0 +1,25 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "rOuGi1DcTUn3yMXjKQMIQlLVLRE=",
+			"path": "github.com/abbot/go-http-auth",
+			"revision": "cb4372376e1e00e9f6ab9ec142e029302c9e7140",
+			"revisionTime": "2016-05-03T22:00:38Z"
+		},
+		{
+			"checksumSHA1": "BIY45G2IVrTttD4Rlk9tHwiIOCM=",
+			"path": "github.com/go-sql-driver/mysql",
+			"revision": "3654d25ec346ee8ce71a68431025458d52a38ac0",
+			"revisionTime": "2016-06-02T00:10:21Z"
+		},
+		{
+			"checksumSHA1": "oxvSPYZbYMjGybO7er4ycq2627w=",
+			"path": "github.com/jmoiron/sqlx",
+			"revision": "bdae0c3219c3bdb92f3d7c70825018712787c933",
+			"revisionTime": "2016-06-15T15:18:03Z"
+		}
+	],
+	"rootPath": "github.com/TomOnTime/resourcedir"
+}
