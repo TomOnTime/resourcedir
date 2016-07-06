@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/TomOnTime/resourcedir/models"
+	"github.com/TomOnTime/velma/models"
 )
 
 func (d *dataAccess) GetAllLocations() []models.Location {

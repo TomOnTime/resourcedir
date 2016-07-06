@@ -1,6 +1,6 @@
 package db
 
-import "github.com/TomOnTime/resourcedir/models"
+import "github.com/TomOnTime/velma/models"
 
 type Db interface {
 	GetPasswordHash(user string) string

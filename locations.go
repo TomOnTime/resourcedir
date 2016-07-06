@@ -8,7 +8,7 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/TomOnTime/resourcedir/models"
+	"github.com/TomOnTime/velma/models"
 	"github.com/abbot/go-http-auth"
 )
 
@@ -152,12 +152,12 @@ func renderLocation(w http.ResponseWriter, locs []models.Location, messages []st
 <table border=1>
 <tr><th>Id</th><th>Location Name</th><th>Region (updated on save)</th></tr>
 
-{{- range .Locations -}}
-<tr><td>{{.Id}}</td><td><input type="text" name="name_{{.Id}}" value="{{.Name}}"></td><td>{{.GroupId}}</td></tr>
-{{end}}
-
 {{- range .NewIds -}}
 <tr><td>NEW</td><td><input type="text" name="name_{{.}}"></td><td>Add new location</td></tr>
+{{end}}
+
+{{- range .Locations -}}
+<tr><td>{{.Id}}</td><td><input type="text" name="name_{{.Id}}" value="{{.Name}}"></td><td>{{.GroupId}}</td></tr>
 {{end}}
 
 </table>
